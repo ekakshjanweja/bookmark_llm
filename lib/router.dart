@@ -1,13 +1,14 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:bookmark_llm/features/auth/pages/login_page.dart';
 import 'package:bookmark_llm/features/home/pages/home_page.dart';
-part 'router.gr.dart';
+import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
-@AutoRouterConfig()
-class AppRouter extends _$AppRouter {
-  @override
-  List<AutoRoute> get routes => [
-        AutoRoute(page: LoginRoute.page, initial: true),
-        AutoRoute(page: HomeRoute.page),
-      ];
-}
+final loggedOutRoute = RouteMap(
+  routes: {
+    "/": (_) => const MaterialPage(child: LoginPage()),
+  },
+);
+
+final loggedInRoute = RouteMap(routes: {
+  "/": (_) => const MaterialPage(child: HomePage()),
+});

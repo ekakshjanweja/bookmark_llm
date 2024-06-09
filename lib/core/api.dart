@@ -5,7 +5,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 //Base URL
 
-const String baseURL = "https://govsolv-ai-server.aryan.cfd";
+const String baseURL = "https://my-app.kunalverma01357.workers.dev";
 
 //Default Headers
 
@@ -41,12 +41,10 @@ class Api {
 class ApiResponse {
   bool success;
   dynamic data;
-  String? message;
 
   ApiResponse({
     required this.success,
     required this.data,
-    this.message,
   });
 
   factory ApiResponse.fromResponse(Response response) {
@@ -55,7 +53,6 @@ class ApiResponse {
     return ApiResponse(
       success: data["success"],
       data: data["data"] as Map<String, dynamic>,
-      message: data["message"],
     );
   }
 }

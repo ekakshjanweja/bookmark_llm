@@ -1,6 +1,9 @@
+import 'package:bookmark_llm/core/models/user_model.dart';
 import 'package:bookmark_llm/features/auth/repo/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final userProvider = StateProvider<UserModel?>((ref) => null);
 
 final authControllerProvider = Provider<AuthController>(
   (ref) => AuthController(
@@ -26,5 +29,13 @@ class AuthController {
 
   Future<UserCredential> signInWithGoogle() async {
     return await _authRepo.signInWithGoogle();
+  }
+
+  void logOut() {
+    _authRepo.logOut();
+  }
+
+  Future<UserModel?> getUserData(String email) {
+    return _authRepo.getUserData(email);
   }
 }
