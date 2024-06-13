@@ -5,6 +5,7 @@ import 'package:bookmark_llm/core/common/local_storage/kv_store_keys.dart';
 import 'package:bookmark_llm/core/common/providers/firebase_providers.dart';
 import 'package:bookmark_llm/core/models/user_model.dart';
 import 'package:bookmark_llm/features/auth/controller/auth_controller.dart';
+import 'package:bookmark_llm/features/home/notifs/notifs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   void initState() {
     super.initState();
     KVStore.init();
+    Notifs.init();
   }
 
   @override
