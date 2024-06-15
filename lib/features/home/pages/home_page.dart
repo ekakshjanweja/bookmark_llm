@@ -7,9 +7,11 @@ import 'package:bookmark_llm/core/models/user_model.dart';
 import 'package:bookmark_llm/features/auth/controller/auth_controller.dart';
 import 'package:bookmark_llm/features/home/notifs/local_notifs.dart';
 import 'package:bookmark_llm/features/home/notifs/notifs.dart';
+import 'package:bookmark_llm/features/carousel_animation/pags/carousel_animation_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   static const routeName = "/";
@@ -78,6 +80,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                 }
               },
               child: const Text("Get User Data"),
+            ),
+            FilledButton.tonal(
+              onPressed: () {
+                Routemaster.of(context).push(CarouselAnimationPage.routeName);
+              },
+              child: const Text("Animation"),
             ),
           ],
         ),

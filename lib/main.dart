@@ -1,7 +1,6 @@
 import 'package:bookmark_llm/core/routemaster_stuff.dart';
 import 'package:bookmark_llm/features/auth/controller/auth_controller.dart';
 import 'package:bookmark_llm/firebase_options.dart';
-import 'package:bookmark_llm/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

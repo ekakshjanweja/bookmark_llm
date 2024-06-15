@@ -1,10 +1,7 @@
 import 'dart:developer' as dev;
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bookmark_llm/core/routemaster_stuff.dart';
 import 'package:bookmark_llm/features/home/pages/notification_redirect_page.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:routemaster/routemaster.dart';
 
 class LocalNotifs {
   static final AwesomeNotifications awesomeNotifications =
