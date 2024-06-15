@@ -1,35 +1,40 @@
 import 'dart:developer' as dev;
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:bookmark_llm/core/routemaster_stuff.dart';
+import 'package:bookmark_llm/features/home/pages/notification_redirect_page.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:routemaster/routemaster.dart';
 
 class LocalNotifs {
   static final AwesomeNotifications awesomeNotifications =
       AwesomeNotifications();
 
-  static final List<NotificationChannel> _channels = [
-    NotificationChannel(
+  static final Map<String, NotificationChannel> _channels = {
+    "test": NotificationChannel(
       channelKey: "test_channel",
       channelName: "Test Channel",
       channelDescription: "Channel to test out notifications",
       importance: NotificationImportance.Max,
     ),
-    NotificationChannel(
+    "scheduled": NotificationChannel(
       channelKey: "scheduled",
       channelName: "scheduled_channel",
       channelDescription: "Channel to test out scheduled notifications",
       importance: NotificationImportance.Max,
     ),
-  ];
+  };
 
-  static List<NotificationChannel> get channels => _channels;
+  static Map<String, NotificationChannel> get channels => _channels;
 
   static Future<void> init() async {
     await awesomeNotifications.initialize(
       null,
-      _channels,
+      _channels.values.toList(),
     );
 
     await awesomeNotifications.resetGlobalBadge();
+
     awesomeNotifications.setListeners(
       onActionReceivedMethod: NotifController.onActionReceivedMethod,
       onNotificationCreatedMethod: NotifController.onNotificationCreatedMethod,
@@ -44,9 +49,11 @@ class LocalNotifs {
     NotificationChannel? channel, {
     String? title,
     String? body,
+    String? bigPicture,
     required int id,
   }) async {
-    final NotificationChannel notificationChannel = channel ?? _channels.first;
+    final NotificationChannel notificationChannel =
+        channel ?? _channels["scheduled"] as NotificationChannel;
 
     await awesomeNotifications.createNotification(
       content: NotificationContent(
@@ -55,40 +62,36 @@ class LocalNotifs {
         title: title,
         body: body,
         wakeUpScreen: true,
+        bigPicture: bigPicture,
+        notificationLayout: NotificationLayout.BigPicture,
       ),
     );
   }
 
-  static Future<void> showScheduleNotif() async {
-    String localTimeZone =
-        await AwesomeNotifications().getLocalTimeZoneIdentifier();
+  static Future<void> showScheduleNotif({
+    required int id,
+    required DateTime scheduledDate,
+  }) async {
     String utcTimeZone =
-        await AwesomeNotifications().getLocalTimeZoneIdentifier();
-    final Object notificationChannel = channels ?? _channels.first;
+        await AwesomeNotifications().getUtcTimeZoneIdentifier();
 
     await awesomeNotifications.createNotification(
       content: NotificationContent(
         id: 233232121,
         channelKey: 'scheduled',
-        title: 'Notification every minute.',
-        body: 'This notification was scheduled to repeat every minute. fgsgrsg',
+        title: 'Title of scheduled notification',
+        body: 'Body of scheduled notification',
         wakeUpScreen: true,
       ),
-      // schedule: NotificationInterval(
-      //   interval: 60,
-      //   timeZone: localTimeZone,
-      //   repeats: true,
-      // ),
-
       schedule: NotificationCalendar(
-        year: 2024,
-        month: 6,
-        day: 13,
-        hour: 16,
-        minute: 24,
-        second: 00,
-        timeZone: localTimeZone,
-        repeats: true,
+        year: scheduledDate.year,
+        month: scheduledDate.month,
+        day: scheduledDate.day,
+        hour: scheduledDate.hour,
+        minute: scheduledDate.minute,
+        second: scheduledDate.second,
+        timeZone: utcTimeZone,
+        allowWhileIdle: true,
       ),
     );
   }
@@ -126,5 +129,30 @@ class NotifController {
     // Your code goes here
     dev.log('Action received: ${receivedAction.id}');
     // Navigate into pages, avoiding to open the notification details page over another details page already opened
+    if (receivedAction.channelKey == 'scheduled') {
+      RoutemasterStuff.routemasterLoggedIn.push(
+        NotificationRedirectPage.routeName,
+        queryParameters: {
+          "title": receivedAction.title ?? "Unknown title",
+        },
+      );
+    }
+  }
+}
+
+enum ScheduleNotifications {
+  test1,
+  test2,
+  test3;
+
+  int get id {
+    switch (this) {
+      case ScheduleNotifications.test1:
+        return 1;
+      case ScheduleNotifications.test2:
+        return 2;
+      case ScheduleNotifications.test3:
+        return 3;
+    }
   }
 }

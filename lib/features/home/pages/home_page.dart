@@ -5,6 +5,7 @@ import 'package:bookmark_llm/core/common/local_storage/kv_store_keys.dart';
 import 'package:bookmark_llm/core/common/providers/firebase_providers.dart';
 import 'package:bookmark_llm/core/models/user_model.dart';
 import 'package:bookmark_llm/features/auth/controller/auth_controller.dart';
+import 'package:bookmark_llm/features/home/notifs/local_notifs.dart';
 import 'package:bookmark_llm/features/home/notifs/notifs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,14 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
     KVStore.init();
     Notifs.init();
+    scheduledNotis();
+  }
+
+  void scheduledNotis() async {
+    await LocalNotifs.showScheduleNotif(
+      id: ScheduleNotifications.test1.id,
+      scheduledDate: DateTime.utc(2024, 6, 15, 4, 54, 00),
+    );
   }
 
   @override

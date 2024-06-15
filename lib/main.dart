@@ -1,3 +1,4 @@
+import 'package:bookmark_llm/core/routemaster_stuff.dart';
 import 'package:bookmark_llm/features/auth/controller/auth_controller.dart';
 import 'package:bookmark_llm/firebase_options.dart';
 import 'package:bookmark_llm/router.dart';
@@ -34,14 +35,9 @@ class _MyAppState extends ConsumerState<MyApp> {
           data: (data) => ShadApp.router(
             debugShowCheckedModeBanner: false,
             title: 'Bookmarkllm',
-            routerDelegate: RoutemasterDelegate(
-              routesBuilder: (context) {
-                if (data != null) {
-                  return loggedInRoute;
-                }
-                return loggedOutRoute;
-              },
-            ),
+            routerDelegate: data != null
+                ? RoutemasterStuff.routemasterLoggedIn
+                : RoutemasterStuff.routemasterLoggedOut,
             routeInformationParser: const RoutemasterParser(),
           ),
           error: (error, stackTrace) => Text(

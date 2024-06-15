@@ -7,8 +7,6 @@ class Notifs {
   static Future<void> init() async {
     await LocalNotifs.init();
 
-    await LocalNotifs.showScheduleNotif();
-
     NotificationSettings settings = await _messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -37,7 +35,7 @@ class Notifs {
       final notification = message.notification;
       // final android = message.notification?.android;
 
-      final channel = LocalNotifs.channels.first;
+      final channel = LocalNotifs.channels["test"];
 
       if (notification != null) {
         LocalNotifs.showNotif(
